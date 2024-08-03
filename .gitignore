@@ -1,0 +1,20 @@
+__pycache__/
+data/
+runs/
+runs_generation/
+runs*/
+model_summary/
+scripts/
+
+# ignore files starting with defunct
+defunct*
+_*
+test*
+*.sh
+tensorboard*
+train_scaling_law*
+draft*
+
+models/gan.py
+models/gpt.py
+models/mlps.py
