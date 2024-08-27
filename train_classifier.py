@@ -211,9 +211,9 @@ if __name__ == '__main__':
     start_epoch = 0
     dropschedular = DropSchedular(model, args.drop_mode, args.percentage, args.min_percentage, args.epochs, interleave=args.interleave, warmup=args.warmup, by_epoch=args.by_epoch, T=args.T)
 
-    # save the model summary into txt file
-    with open(f'/ifs/loni/faculty/shi/spectrum/Student_2020/lzhong/KernelConv/model_summary/{save_dir.replace("/", "_")}.txt', 'w') as f:
-        f.write(result)
+    # # save the model summary into txt file
+    # with open(f'/ifs/loni/faculty/shi/spectrum/Student_2020/lzhong/KernelConv/model_summary/{save_dir.replace("/", "_")}.txt', 'w') as f:
+    #     f.write(result)
     
     optimizer = optim.Adam(model.parameters(), lr=args.lr, betas=(0.9, 0.999), eps=1e-8)
 
