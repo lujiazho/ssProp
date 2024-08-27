@@ -150,45 +150,45 @@ if __name__ == '__main__':
     else:
         raise ValueError(f"Unknown task: {task}")
 
-    # if task == 'CelebA':
-    #     train_dataset = datasets.CelebA(root='./data', split='train', transform=transforms['CelebA'], download=True)
-    #     valid_dataset = datasets.CelebA(root='./data', split='valid', transform=transforms['CelebA'], download=True)
-    #     test_dataset = datasets.CelebA(root='./data', split='test', transform=transforms['CelebA'], download=True)
+    if task == 'CelebA':
+        train_dataset = datasets.CelebA(root='./data', split='train', transform=transforms['CelebA'], download=True)
+        valid_dataset = datasets.CelebA(root='./data', split='valid', transform=transforms['CelebA'], download=True)
+        test_dataset = datasets.CelebA(root='./data', split='test', transform=transforms['CelebA'], download=True)
 
-    #     train_loader = DataLoader(train_dataset, batch_size=args.bs, shuffle=True, num_workers=8)
-    #     val_loader = DataLoader(valid_dataset, batch_size=args.bs, shuffle=False, num_workers=8)
-    #     test_loader = DataLoader(test_dataset, batch_size=args.bs, shuffle=False, num_workers=8)
-    # elif task == 'Flowers102':
-    #     train_dataset = datasets.Flowers102(root='./data', split='train', transform=transforms['Flowers102'], download=True)
-    #     val_dataset = datasets.Flowers102(root='./data', split='val', transform=transforms['Flowers102'], download=True)
-    #     test_dataset = datasets.Flowers102(root='./data', split='test', transform=transforms['Flowers102'], download=True)
+        train_loader = DataLoader(train_dataset, batch_size=args.bs, shuffle=True, num_workers=8)
+        val_loader = DataLoader(valid_dataset, batch_size=args.bs, shuffle=False, num_workers=8)
+        test_loader = DataLoader(test_dataset, batch_size=args.bs, shuffle=False, num_workers=8)
+    elif task == 'Flowers102':
+        train_dataset = datasets.Flowers102(root='./data', split='train', transform=transforms['Flowers102'], download=True)
+        val_dataset = datasets.Flowers102(root='./data', split='val', transform=transforms['Flowers102'], download=True)
+        test_dataset = datasets.Flowers102(root='./data', split='test', transform=transforms['Flowers102'], download=True)
 
-    #     train_loader = DataLoader(train_dataset, batch_size=args.bs, shuffle=True, num_workers=8)
-    #     val_loader = DataLoader(val_dataset, batch_size=args.bs, shuffle=False, num_workers=8)
-    #     test_loader = DataLoader(test_dataset, batch_size=args.bs, shuffle=False, num_workers=8)
-    # elif task == 'ImageNet':
-    #     dataset = datasets.ImageNet(root='./data', split='val', transform=transforms['ImageNet'])
+        train_loader = DataLoader(train_dataset, batch_size=args.bs, shuffle=True, num_workers=8)
+        val_loader = DataLoader(val_dataset, batch_size=args.bs, shuffle=False, num_workers=8)
+        test_loader = DataLoader(test_dataset, batch_size=args.bs, shuffle=False, num_workers=8)
+    elif task == 'ImageNet':
+        dataset = datasets.ImageNet(root='./data', split='val', transform=transforms['ImageNet'])
 
-    #     # Split validation dataset into validation and test sets
-    #     val_size = int(0.8 * len(dataset))
-    #     test_size = len(dataset) - val_size
-    #     val_dataset, test_dataset = torch.utils.data.random_split(dataset, [val_size, test_size])
+        # Split validation dataset into validation and test sets
+        val_size = int(0.8 * len(dataset))
+        test_size = len(dataset) - val_size
+        val_dataset, test_dataset = torch.utils.data.random_split(dataset, [val_size, test_size])
 
-    #     train_dataset = datasets.ImageNet(root='./data', split='train', transform=transforms['ImageNet'])
-    #     # print(dataset.class_to_idx == train_dataset.class_to_idx)
-    #     train_loader = DataLoader(train_dataset, batch_size=args.bs, shuffle=True, num_workers=8)
-    #     val_loader = DataLoader(val_dataset, batch_size=args.bs, shuffle=False, num_workers=8)
-    #     test_loader = DataLoader(test_dataset, batch_size=args.bs, shuffle=False, num_workers=8)
-    # else:
-    #     train_dataset = tasks[task](root='./data', train=True, transform=transforms[task], download=True)
-    #     # split the training dataset into training and validation
-    #     train_size, val_size = int(0.8 * len(train_dataset)), int(0.2 * len(train_dataset))
-    #     train_dataset, val_dataset = torch.utils.data.random_split(train_dataset, [train_size, val_size])
-    #     train_loader = DataLoader(dataset=train_dataset, batch_size=args.bs, shuffle=True)
-    #     val_loader = DataLoader(dataset=val_dataset, batch_size=args.bs, shuffle=False)
+        train_dataset = datasets.ImageNet(root='./data', split='train', transform=transforms['ImageNet'])
+        # print(dataset.class_to_idx == train_dataset.class_to_idx)
+        train_loader = DataLoader(train_dataset, batch_size=args.bs, shuffle=True, num_workers=8)
+        val_loader = DataLoader(val_dataset, batch_size=args.bs, shuffle=False, num_workers=8)
+        test_loader = DataLoader(test_dataset, batch_size=args.bs, shuffle=False, num_workers=8)
+    else:
+        train_dataset = tasks[task](root='./data', train=True, transform=transforms[task], download=True)
+        # split the training dataset into training and validation
+        train_size, val_size = int(0.8 * len(train_dataset)), int(0.2 * len(train_dataset))
+        train_dataset, val_dataset = torch.utils.data.random_split(train_dataset, [train_size, val_size])
+        train_loader = DataLoader(dataset=train_dataset, batch_size=args.bs, shuffle=True)
+        val_loader = DataLoader(dataset=val_dataset, batch_size=args.bs, shuffle=False)
 
-    #     test_dataset = tasks[task](root='./data', train=False, transform=transforms[task], download=True)
-    #     test_loader = DataLoader(dataset=test_dataset, batch_size=args.bs, shuffle=False)
+        test_dataset = tasks[task](root='./data', train=False, transform=transforms[task], download=True)
+        test_loader = DataLoader(dataset=test_dataset, batch_size=args.bs, shuffle=False)
 
     mode = args.mode
     drop_behavior = "" if "sensitivity_1" not in save_dir else args.exp.split('/')[-1] # only used while do sensitivity 1 analysis
@@ -215,8 +215,6 @@ if __name__ == '__main__':
     with open(f'/ifs/loni/faculty/shi/spectrum/Student_2020/lzhong/KernelConv/model_summary/{save_dir.replace("/", "_")}.txt', 'w') as f:
         f.write(result)
     
-    exit()
-
     optimizer = optim.Adam(model.parameters(), lr=args.lr, betas=(0.9, 0.999), eps=1e-8)
 
     if args.resume:
